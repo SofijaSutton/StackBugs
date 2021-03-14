@@ -39,6 +39,53 @@ class Home extends React.Component {
         this.renderScene()
         this.start()
     }
+    //ADD Your 3D Models here
+    addModels() {
+        const geometry = new THREE.SphereGeometry(1, 30, 30, 0, Math.PI, 0) //, Math.PI /2 add to make cut in half
+        const material = new THREE.MeshPhongMaterial({side: THREE.DoubleSide})
+        this.mesh = new THREE.Mesh(geometry, material)
+
+        this.scene.add(this.mesh)
+
+        //LOAD texture from Web and on completion apply it on SPHERE
+        new THREE.TextureLoader().load(
+            'https://images.unsplash.com/photo-1529256082460-40d68ec500da?ixid=MXwxMjA3fDB8MHxzZWFyY2h8ODF8fHB1cnBsZSUyMGdyZWVuJTIwY29sb3J8ZW58MHwwfDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+
+            texture => {
+                //Update Texture
+                this.mesh.material.map = texture
+                this.mesh.material.needsUpdate = true
+            },
+            xhr => {
+                //Download Progress
+                console.log(xhr.loaded / xhr.total * 100 + '% loaded')
+            },
+            error => {
+                //Error CallBack
+                console.log('An error happened' + error)
+            }
+        )
+
+        // -----Step 4--------
+        //Loading 3d Models
+        //Load Material First // not working MTL
+        const mtlLoader = new MTLLoader();
+        mtlLoader.setTexturePath("./3Dobj/");
+        mtlLoader.load("./3Dobj/LadybugSample.mtl", materials => {
+        materials.preload();
+        console.log("Material loaded");
+
+        //Load Object Now and Set Material
+        const objLoader = new OBJLoader()
+        objLoader.setMaterials(materials);
+        objLoader.load('./3Dobj/LadybugSample.obj', object => {
+            this.backMesh = object
+            this.backMesh.position.setY(3) //or  this
+            this.backMesh.scale.set(0.02, 0.02, 0.02)
+            this.scene.add(this.backMesh)
+        })
+        });
+    }
 
     componentWillUnmount() {
         this.stop()
