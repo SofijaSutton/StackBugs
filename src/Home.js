@@ -92,6 +92,29 @@ class Home extends React.Component {
         this.mount.removeChild(this.renderer.domElement)
     }
 
+    //start animation
+    start = () => {
+        if (!this.frameId) {
+            this.frameId = requestAnimationFrame(this.animate)
+        }
+    }
+    stop = () => {
+        cancelAnimationFrame(this.frameId)
+    }
+
+    animate = () => {
+        //Animate Models Here
+        if (this.mesh) this.mesh.rotation.y += 0.01
+        if (this.backMesh) this.backMesh.rotation.y += 0.01
+
+        //ReDraw Scene with Camera and Scene Object
+        this.renderScene()
+        this.frameId = window.requestAnimationFrame(this.animate)
+    }
+    renderScene = () => {
+        if (this.renderer) this.renderer.render(this.scene, this.camera)
+    }
+
     render() {
         return (
             <div
