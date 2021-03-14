@@ -39,6 +39,24 @@ class Home extends React.Component {
         this.renderScene()
         this.start()
     }
+
+    componentWillUnmount() {
+        this.stop()
+        this.mount.removeChild(this.renderer.domElement)
+    }
+
+    render() {
+        return (
+            <div
+                style={{width: '800px', height: '800px'}}
+                ref={mount => {
+                    this.mount = mount
+                }}
+            >
+                <h1>Welcome to StackBug!</h1>
+            </div>
+        )
+    }
 }
 
 export default Home
