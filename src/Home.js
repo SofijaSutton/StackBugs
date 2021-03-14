@@ -69,22 +69,22 @@ class Home extends React.Component {
         // -----Step 4--------
         //Loading 3d Models
         //Load Material First // not working MTL
-        const mtlLoader = new MTLLoader();
-        mtlLoader.setTexturePath("./3Dobj/");
-        mtlLoader.load("./3Dobj/LadybugSample.mtl", materials => {
-        materials.preload();
-        console.log("Material loaded");
+        // const mtlLoader = new MTLLoader();
+        // mtlLoader.setTexturePath("./3Dobj/");
+        // mtlLoader.load("./3Dobj/Bug.mtl", materials => {
+        // materials.preload();
+        // console.log("Material loaded");
 
         //Load Object Now and Set Material
         const objLoader = new OBJLoader()
-        objLoader.setMaterials(materials);
-        objLoader.load('./3Dobj/LadybugSample.obj', object => {
+       // objLoader.setMaterials(materials);
+        objLoader.load('./3Dobj/Bug.obj', object => {
             this.backMesh = object
             this.backMesh.position.setY(3) //or  this
             this.backMesh.scale.set(0.02, 0.02, 0.02)
             this.scene.add(this.backMesh)
         })
-        });
+       // });
     }
 
     componentWillUnmount() {
