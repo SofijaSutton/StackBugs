@@ -2,6 +2,8 @@ import React from "react";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-obj-mtl-loader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+//import OrbitControls from "three-orbitcontrols";
+import { OrbitControls } from 'three-orbitcontrols-ts';
 
 /**
  * COMPONENT
@@ -10,7 +12,7 @@ class Home extends React.Component {
 	componentDidMount() {
 		const width = this.mount.clientWidth;
 		const height = this.mount.clientHeight;
-        window.addEventListener("resize", this.handleWindowResize);
+		window.addEventListener("resize", this.handleWindowResize);
 		this.scene = new THREE.Scene();
 
 		//Add Renderer
@@ -23,6 +25,10 @@ class Home extends React.Component {
 		this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 		this.camera.position.z = 8;
 		this.camera.position.y = 5;
+
+		//Camera Controls
+
+		const controls = new OrbitControls(this.camera, this.renderer.domElement);
 
 		//LIGHTS
 		var lights = [];
@@ -78,31 +84,31 @@ class Home extends React.Component {
 
 		//Load Object Now and Set Material
 		const objLoader = new OBJLoader();
-		// objLoader.setMaterials(materials);
+	//	objLoader.setMaterials(materials);
 		objLoader.load("./3Dobj/Bug.obj", (object) => {
 			this.backMesh = object;
 			this.backMesh.position.setY(3); //or  this
 			this.backMesh.scale.set(0.02, 0.02, 0.02);
 			this.scene.add(this.backMesh);
 		});
-		// });
+	 //   });
 	}
 
 	componentWillUnmount() {
 		this.stop();
-        window.removeEventListener("resize", this.handleWindowResize);
+		window.removeEventListener("resize", this.handleWindowResize);
 		this.mount.removeChild(this.renderer.domElement);
 	}
 
-    handleWindowResize = () => {
-        const width = this.mount.clientWidth;
-        const height = this.mount.clientHeight;
-    
-        this.camera.aspect = width / height;
-        this.camera.updateProjectionMatrix();
-    
-        this.renderer.setSize(width, height, false);
-      };
+	handleWindowResize = () => {
+		const width = this.mount.clientWidth;
+		const height = this.mount.clientHeight;
+
+		this.camera.aspect = width / height;
+		this.camera.updateProjectionMatrix();
+
+		this.renderer.setSize(width, height, false);
+	};
 
 	//start animation
 	start = () => {
@@ -123,6 +129,7 @@ class Home extends React.Component {
 		this.renderScene();
 		this.frameId = window.requestAnimationFrame(this.animate);
 	};
+
 	renderScene = () => {
 		if (this.renderer) this.renderer.render(this.scene, this.camera);
 	};
@@ -143,7 +150,7 @@ class Home extends React.Component {
 				</div>
 				<div
 					className='flex-child bug'
-					style={{display: 'flex', width: "100%", height: "100%" }}
+					style={{ display: "flex", width: "100%", height: "100%" }}
 					ref={(mount) => {
 						this.mount = mount;
 					}}></div>
