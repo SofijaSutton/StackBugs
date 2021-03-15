@@ -8,18 +8,21 @@ function App() {
     <Router>
     <div>
       <div>
-        <nav>
-          Sofija Sutton
+        <nav className='name'>
+          <h2 className='sofija'>Sofija Sutton</h2>
           <div className='nav-right'>
-            <Link to='/'>Projects</Link>
-            <Link to='/'>About</Link>
-            <Link to='/'>Contact</Link>
+            <ul>
+            <li><Link to='/'>Projects</Link></li>
+            <li><Link to='/'>About</Link></li>
+            <li><Link to='/'>Contact</Link></li>
+            </ul>
           </div>
         </nav>
       </div>
       <Switch>
         <Route path='/' component={Home} />
       </Switch>
+      <div className='footer'>This site is a work in progress, please feel free to reach out! March 2021</div>
     </div>
     </Router>
   );
