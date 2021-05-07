@@ -2,7 +2,6 @@ import React from "react";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-obj-mtl-loader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-//import OrbitControls from "three-orbitcontrols";
 import { OrbitControls } from 'three-orbitcontrols-ts';
 
 /**
@@ -17,7 +16,7 @@ class Home extends React.Component {
 
 		//Add Renderer
 		this.renderer = new THREE.WebGLRenderer({ antialias: true });
-		this.renderer.setClearColor("#ffffff");
+		this.renderer.setClearColor("#e0def5");
 		this.renderer.setSize(width, height);
 		this.mount.appendChild(this.renderer.domElement);
 
@@ -27,13 +26,12 @@ class Home extends React.Component {
 		this.camera.position.y = 5;
 
 		//Camera Controls
-
 		const controls = new OrbitControls(this.camera, this.renderer.domElement);
 
 		//LIGHTS
 		var lights = [];
-		lights[0] = new THREE.PointLight(0x304ffe, 1, 0);
-		lights[1] = new THREE.PointLight(0xffffff, 1, 0);
+		lights[0] = new THREE.PointLight(0x17e76e, 1, 0);
+		lights[1] = new THREE.PointLight(0xd1fd98, 1, 0);
 		lights[2] = new THREE.PointLight(0xffffff, 1, 0);
 		lights[0].position.set(0, 200, 0);
 		lights[1].position.set(100, 200, 100);
@@ -84,14 +82,15 @@ class Home extends React.Component {
 
 		//Load Object Now and Set Material
 		const objLoader = new OBJLoader();
-	//	objLoader.setMaterials(materials);
+		//objLoader.setMaterials(material);
 		objLoader.load("./3Dobj/Bug.obj", (object) => {
 			this.backMesh = object;
-			this.backMesh.position.setY(3); //or  this
+			this.backMesh.position.setY(0); //or  this
 			this.backMesh.scale.set(0.02, 0.02, 0.02);
 			this.scene.add(this.backMesh);
 		});
 	 //   });
+	 
 	}
 
 	componentWillUnmount() {
@@ -122,8 +121,10 @@ class Home extends React.Component {
 
 	animate = () => {
 		//Animate Models Here
-		if (this.mesh) this.mesh.rotation.y += 0.01;
-		if (this.backMesh) this.backMesh.rotation.y += 0.01;
+		if (this.mesh) this.mesh.rotation.x += 0.05;
+		if (this.backMesh) this.backMesh.rotation.x += 0.005;
+		if (this.backMesh) this.backMesh.rotation.y -= 0.005;
+
 
 		//ReDraw Scene with Camera and Scene Object
 		this.renderScene();
